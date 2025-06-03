@@ -1,0 +1,26 @@
+name: TDS DEMO
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name:  Docker login
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name:  Podman Image
+        run: podman build -t docker.io/varmaiitm/noteapp:latest .
+
+      - name:  Push to cloud
+        run: podman push docker.io/varmaiitm/noteapp:latest
+        
+          
