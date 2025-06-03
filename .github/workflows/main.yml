@@ -23,5 +23,9 @@ jobs:
 
       - name:  Push to cloud
         run: podman push docker.io/varmaiitm/noteapp:latest
+
+      - name: Notify the Azure VM  to execute deploy.sh
+        run: curl -X POST -d "token=${{ secrets.VM_WEBHOOK_SECRET }}" http://40.81.227.120:5000/webhook
+        
         
           
